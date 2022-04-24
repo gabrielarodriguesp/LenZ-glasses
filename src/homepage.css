@@ -97,23 +97,34 @@ body{
     text-decoration: none;
 }
 
-.content{
-    display: flex;
-    flex-flow: row wrap;
-    width: 80%;
-      padding: 50px 150px;
-    justify-content: center;
-    align-items: center;
+.menu{
+  display: flex;
+  flex-flow: row wrap;
+  width: 80%;
+  padding: 0 150px;
+  justify-content: center;
+  align-items: center;
+}
+
+.recommended h1{
+  position: center;
+  text-align: center;
+  color: #424949;
+  font-family: 'Lobster', cursive;
+  font-weight: lighter;
+  font-size: 60px;
+  line-height: 40px;
+  margin: 60px;
 }
 
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    max-width: 600px;
+    max-width: 300px;
     height: 400px;
     margin: auto;
     text-align: center;
     font-family: arial;
-    margin: 60px 100px;
+    margin: 30px 100px;
   }
   
   .price {
