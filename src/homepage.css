@@ -114,17 +114,16 @@ body{
   font-weight: lighter;
   font-size: 60px;
   line-height: 40px;
-  margin: 60px;
+  margin: 80px 0;
 }
 
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     max-width: 300px;
     height: 400px;
-    margin: auto;
     text-align: center;
     font-family: arial;
-    margin: 30px 100px;
+    margin: 0 100px 90px 100px;
   }
   
   .price {
