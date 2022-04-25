@@ -43,6 +43,47 @@ O sistema visa ser bem dinâmico e acessível, tornando facilitadas a venda e a 
 
 ### 2. Descrição do Projeto
 
+A loja virtual **LenZ Glasses** consiste em um e-commerce focado em acessórios óticos como óculos de sol, óculos de grau, armações e lentes de contato. Implementado em HTML, CSS, JavaScript e *(mais ferramentas aqui)*.
+
+### Diagrama de Navegação:
+##### (Diagrama de Navegação aqui)
+
+As imagens do mockup estão em uma pasta separada nesse projeto.
+
+### Funcionalidades
+As funcionalidades do e-commerce LenZ Glasses são:
+* Login com e-mail e senha, e opção para cadastro de novo cliente;
+* Página própria para cliente, contendo informações, histórico de compras e agendamento de exames;
+* Em caso de administradores, também possuem página própria diferente da de clientes para gerenciamento de vendas;
+* Acesso à homepage, contendo itens recomendados;
+* Página de visualização de um produto, com seu nome, preço, descrição, disponibilidade e botão para adicionar ao carrinho;
+* Acesso ao carrinho de compras, com opção de mudar a quantidade de itens, conferir o preço total e finalizar compra;
+* Opções de pagamento, registro de cartão de crédito, pix ou boleto;
+* Opção de selecionar ou alterar endereço de entrega da compra;
+* Opção de agendamento de exame oftalmológico. 
+
+### Servidor 
+
+Sobre o servidor, abaixo estão as informações que foram salvas:
+
+#### Contas
+* ID
+* Nome
+* E-mail
+* Senha
+* Admin (booleano)
+* CPF
+* Endereço
+* Telefone
+
+#### Produtos
+* ID
+* Nome do produto
+* Preço
+* Descrição
+* Identificador da imagem
+* Disponíbilidade (booleano)
+
 ### 3. Comentários sobre o código
 ### 4. Plano de teste
 ### 5. Resultados dos testes
