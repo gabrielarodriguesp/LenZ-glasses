@@ -74,3 +74,54 @@ a:link{
   margin-bottom: 50px;
   line-height: 40px;
 }
+
+
+/* AFTER CHANGES */
+#cart-container{
+  margin: 100px 200px 100px 200px;
+}
+#cart-container table{
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+}
+
+
+#cart-container table thead{
+  font-weight: bold;
+}
+
+
+#cart-container table thead td{
+  background-color: #48C9B0;
+  color: #fff;
+  border: none;
+  padding: 6px 0;
+}
+
+#cart-container table td{
+  border: 1px solid;
+  text-align: center;
+}
+
+#cart-container table td:nth-child(1){
+  width: 100px;
+}
+#cart-container table td:nth-child(2),
+#cart-container table td:nth-child(3){
+  width: 200px;
+}
+#cart-container table td:nth-child(4),
+#cart-container table td:nth-child(5),
+#cart-container table td:nth-child(6){
+  width: 170px;
+}
+#cart-container table td img{
+  width: 100px;
+  height: 80px;
+  object-fit: cover;
+}
+
+#qtndInput{
+  width: 50px;
+}

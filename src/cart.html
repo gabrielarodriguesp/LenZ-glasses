@@ -5,7 +5,7 @@
     <title>LenZ Glasses</title>
     <link rel="stylesheet" href="normalize.css">
     <link rel="stylesheet" href="standard.css">
-    <link rel="stylesheet" href="cart.css">
+    <link rel="stylesheet" href="cart1.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -39,53 +39,38 @@
         <li><a href="#login">Login</a></li>
       </ul>
     </div>
+    <section id="cart-container">
+        <table width="100%">
+            <thead>
+                <td>Remover</td>
+                <td>Imagem</td>
+                <td>Produto</td>
+                <td>Preço</td>
+                <td>Quantidade</td>
+                <td>Total</td>
+            </thead>
 
-    <div class="cart-itens">
-        <div class="cart-header">
-            <h1 class="cart-title"> Meu carrinho</h1>
-            <div class="descr-right">
-                Preço
-                Qntd.
-                Subtotal
-            </div>
-        </div>
-
-        <div class="product-1">
-            <div class=”img-product”>
-                <img src="../img/oculos.jpg" width="80px">
-            </div>
-            <div class=”about”>
-                <h1 class=”prod-title”>Oculos de sol</h1>
-                <h3 class=”prod-subtitle”>description</h3>
-            </div>
-            <div class="prod-attrib">
-                R$200,00
-                2
-                R$400,00
-            </div>
-            <br>
-        </div>
-
-        <div class="product-1">
-          <div class=”img-product”>
-              <img src="../img/oculos.jpg" width="80px">
-          </div>
-          <div class=”about”>
-            <h1 class=”title”>Oculos de sol</h1>
-            <h3 class=”subtitle”>description</h3>
-          </div>
-          <div class="prod-attrib">
-            R$400,00
-            1
-            R$400,00
-          </div>
-        </div>
-
-        <div class="total">
-          <h4>TOTAL: R$800,00</h4>
-        </div>
-        <br>
-    </div>
+            <tbody>
+              <tr>
+                
+                <td><a href="#"><img src="../img/x.png"></a></td>
+                <td><img src="../img/oculos.jpg" alt="glasses"></td>
+                <td>
+                  <h5>Description</h5>
+                </td>
+                <td>
+                  R$100,00
+                </td>
+                <td>
+                  <input type="number" name="qntd" id="qtndInput" value="1">
+                </td>
+                <td>
+                  <h5>R$100</h5>
+                </td>
+              </tr>
+            </tbody>
+        </table>
+    </section>
     
     <div class="ckeckout-button">
       <a href="#checkout">FINALIZAR COMPRA</a>
