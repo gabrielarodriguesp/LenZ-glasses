@@ -116,7 +116,7 @@ a:link{
 #cart-container table td:nth-child(6){
   width: 170px;
 }
-#cart-container table td img{
+.product-img{
   width: 100px;
   height: 80px;
   object-fit: cover;
@@ -124,4 +124,9 @@ a:link{
 
 #qtndInput{
   width: 50px;
+}
+
+.trash-img{
+  width: 30px;
+  object-fit: cover;
 }
