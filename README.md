@@ -43,7 +43,7 @@ O sistema visa ser bem dinâmico e acessível, tornando facilitadas a venda e a 
 
 ### 2. Descrição do Projeto
 
-A loja virtual **LenZ Glasses** consiste em um e-commerce focado em acessórios óticos como óculos de sol, óculos de grau, armações e lentes de contato. Implementado em HTML, CSS, JavaScript e *(mais ferramentas aqui)*.
+A loja virtual **LenZ Glasses** consiste em um e-commerce focado em acessórios óticos como óculos de sol, óculos de grau, armações e lentes de contato. Implementado em HTML, CSS, JavaScript e Vue.
 
 ### Diagrama de Navegação:
 ##### (Diagrama de Navegação aqui)
