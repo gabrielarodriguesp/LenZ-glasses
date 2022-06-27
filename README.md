@@ -92,6 +92,14 @@ A responsividade não é uma prioridade nesse trabalho, entretanto, em algumas p
 
 O projeto foi testado nos navegadores Firefox e Google Chrome, e nos sistemas operacionais Windows, Ubuntu e Manjaro. 
 
+Como o banco de dados não é necessario nesta entrega, foi cadastrado 1 cliente e 1 admin fixo. Os dados para fazer o login são:
+
+email:senha
+
+usuario@usuario.com:usuario
+
+admin@admin.com:admin
+
 ### 5. Resultados dos testes
 
 ### 6. Building
