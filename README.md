@@ -92,6 +92,12 @@ A responsividade não é uma prioridade nesse trabalho, entretanto, em algumas p
 
 O projeto foi testado nos navegadores Firefox e Google Chrome, e nos sistemas operacionais Windows, Ubuntu e Manjaro. 
 
+1-Fluxo padrão de uma compra. Um usuario loga com sua conta, adiciona produtos ao carrinho e procede para o pagamento.
+2-Adicionar/remover/alterar itens do carrinho.
+3-Login com usuario e com admin.
+4-Sair da conta.
+5-Tentando logar com conta não existente.
+
 Como o banco de dados não é necessario nesta entrega, foi cadastrado 1 cliente e 1 admin fixo. Os dados para fazer o login são:
 
 email:senha
@@ -101,7 +107,11 @@ usuario@usuario.com:usuario
 admin@admin.com:admin
 
 ### 5. Resultados dos testes
-
+1- O fluxo fluiu como esperado e passou por toda navegação.
+2- Os itens do carrinho estão respondendo bem.
+3- O sistema ja reconhece quando é cliente ou admin.
+4- Ao sair da conta tanto quanto cliente quanto admin, voltam para homepage.
+5- Quando uma conta não existe, aparece um alert informando.
 ### 6. Building
 
 Primeiramente, é necessário realizar o download desse repositório. Logo após o download, basta navegar até a pasta principal do projeto através do terminal e executar os seguintes comandos: 
