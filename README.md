@@ -85,8 +85,37 @@ Sobre o servidor, abaixo estão as informações que foram salvas:
 * Disponíbilidade (booleano)
 
 ### 3. Comentários sobre o código
+
+A responsividade não é uma prioridade nesse trabalho, entretanto, em algumas partes é possível notar um design responsivo, o que não corresponde ao trabalho como um todo.
+
 ### 4. Plano de teste
+
+O projeto foi testado nos navegadores Firefox e Google Chrome, e nos sistemas operacionais Windows, Ubuntu e Manjaro. 
+
 ### 5. Resultados dos testes
+
 ### 6. Building
+
+Primeiramente, é necessário realizar o download desse repositório. Logo após o download, basta navegar até a pasta principal do projeto através do terminal e executar os seguintes comandos: 
+
+Para a aplicação: 
+```
+npm install
+npm run serve
+```
+
+Para o servidor: 
+```
+npm install -g json-server
+npm run backend
+```
+Caso esteja tudo correndo bem, a aplicação estará rodando em `localhost:8080/`
+
 ### 7. Problemas
+
 ### 8. Comentários
+
+Os frameworks utilizados pelo grupo para a realização desse projeto foram:
+- Mockup: Figma;
+- Front-end: Vue.js;
+- Servidor: JSON Server;
