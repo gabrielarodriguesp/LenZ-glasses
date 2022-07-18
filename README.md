@@ -27,11 +27,11 @@ Os clientes são usuários que possuem o intuito de navegar pelo sistema e compr
 
 Os administradores são funcionários da loja que possuem acesso aos dados dos clientes e dos pedidos feitos pelos mesmos. 
 
-O registro de um cliente leva em conta dados como nome, CPF, e-mail, senha, endereço e telefone.
+O registro de um cliente leva em conta dados como nome, CPF, e-mail, senha, endereço, CEP e telefone.
 
-O registro de um administrador leva em conta dados como nome, CPF, e-mail, senha e telefone.
+O registro de um administrador leva em conta dados como nome, CPF, e-mail, senha, endereço, CEP e telefone.
 
-O registro dos produtos da loja inclui nome, id, foto, descrição, preço e disponibilidade (se existe em estoque ou se está esgotado).
+O registro dos produtos da loja inclui nome, id, foto, descrição, preço e quantidade em estoque.
 
 Para a realização de uma compra, o usuário deve selecionar o produto e também a quantidade que deseja adquirir. Com isso, o produto vai direto para o carrinho de compras. O usuário pode escolher se continua comprando ou se prefere fechar o pedido. Caso escolha continuar comprando, é redirecionado de volta à página inicial do site. Caso prefira fechar o pedido, é redirecionado para uma página onde deverá realizar login ou, caso seja visitante, realizar um cadastro (se já estiver logado, o cliente irá direto para a próxima página). Após entrar no sistema, o cliente será direcionado para a página de revisão de compra, que basicamente revisa detalhes do pedido. Ao prosseguir, o cliente deve confirmar o endereço de entrega do produto. Para finalizar, a última ação antes da confirmação da compra é a seleção da forma de pagamento. Finalizadas todas as etapas, a compra é então confirmada.
 
@@ -69,20 +69,23 @@ Sobre o servidor, abaixo estão as informações que foram salvas:
 #### Contas
 * ID
 * Nome
+* Data de Nascimento
 * E-mail
 * Senha
 * Admin (booleano)
 * CPF
 * Endereço
+* CEP
 * Telefone
 
 #### Produtos
 * ID
 * Nome do produto
+* Quantidade em estoque
+* Categoria
 * Preço
-* Descrição
+* Descrição (diferente para óculos e lentes)
 * Identificador da imagem
-* Disponíbilidade (booleano)
 
 ### 3. Comentários sobre o código
 
@@ -98,7 +101,7 @@ O projeto foi testado nos navegadores Firefox e Google Chrome, e nos sistemas op
 * 4-Sair da conta.
 * 5-Tentando logar com conta não existente.
 
-Como o banco de dados não é necessario nesta entrega, foi cadastrado 1 cliente e 1 admin fixo. Os dados para fazer o login são:
+Para a execução dos testes, foram cadastrados 1 cliente e 1 admin fixo. Os dados para fazer o login são:
 
 email:senha
 
@@ -125,14 +128,14 @@ npm run serve
 
 Para o servidor: 
 ```
-npm install -g json-server
 npm run backend
 ```
 Caso esteja tudo correndo bem, a aplicação estará rodando em `localhost:8080/`
 
 ### 7. Problemas
- - O maior problema encontrado entre os membros foi a complexidade do trabalho, dado que estava difícil conciliar com as outras disciplinas da graduação, tornando-o mais exaustivo e estressante em algumas etapas.
- - Outro problema encontrado foi o pouco tempo dado para aprender algumas tecnologias, que foi considerado pelo grupo bem curto para que logo já fosse realizada a implementação no trabalho, além da dependência de algumas partes do trabalho, tornando mais difícil o avanço no mesmo quando a implementação de alguma dessas tecnologias gerava erro.
+ - O maior problema encontrado entre os membros foi a complexidade do trabalho, dado que estava difícil conciliar com as outras disciplinas da graduação, tornando-o mais exaustivo e estressante em algumas etapas;
+ - Outro problema encontrado foi o pouco tempo dado para aprender algumas tecnologias, que foi considerado pelo grupo bem curto para que logo já fosse realizada a implementação no trabalho, além da dependência de algumas partes do trabalho, tornando mais difícil o avanço no mesmo quando a implementação de alguma dessas tecnologias gerava erro;
+ - Durante a execução do projeto, também tivemos dificuldades em armazenar as imagens no banco de dados;
 
 ### 8. Comentários
 
