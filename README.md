@@ -100,6 +100,7 @@ O projeto foi testado nos navegadores Firefox e Google Chrome, e nos sistemas op
 * 3-Login com usuario e com admin.
 * 4-Sair da conta.
 * 5-Tentando logar com conta não existente.
+* 6-Testar a barra de pesquisa.
 
 Para a execução dos testes, foram cadastrados 1 cliente e 1 admin fixo. Os dados para fazer o login são:
 
