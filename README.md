@@ -133,7 +133,6 @@ Caso esteja tudo correndo bem, a aplicação estará rodando em `localhost:8080/
 ### 7. Problemas
  - O maior problema encontrado entre os membros foi a complexidade do trabalho, dado que estava difícil conciliar com as outras disciplinas da graduação, tornando-o mais exaustivo e estressante em algumas etapas.
  - Outro problema encontrado foi o pouco tempo dado para aprender algumas tecnologias, que foi considerado pelo grupo bem curto para que logo já fosse realizada a implementação no trabalho, além da dependência de algumas partes do trabalho, tornando mais difícil o avanço no mesmo quando a implementação de alguma dessas tecnologias gerava erro.
- - 
 
 ### 8. Comentários
 
