@@ -112,6 +112,7 @@ admin@admin.com:admin
 * 3- O sistema ja reconhece quando é cliente ou admin.
 * 4- Ao sair da conta tanto quanto cliente quanto admin, voltam para homepage.
 * 5- Quando uma conta não existe, aparece um alert informando.
+
 ### 6. Building
 
 Primeiramente, é necessário realizar o download desse repositório. Logo após o download, basta navegar até a pasta principal do projeto através do terminal e executar os seguintes comandos: 
@@ -130,6 +131,9 @@ npm run backend
 Caso esteja tudo correndo bem, a aplicação estará rodando em `localhost:8080/`
 
 ### 7. Problemas
+ - O maior problema encontrado entre os membros foi a complexidade do trabalho, dado que estava difícil conciliar com as outras disciplinas da graduação, tornando-o mais exaustivo e estressante em algumas etapas.
+ - Outro problema encontrado foi o pouco tempo dado para aprender algumas tecnologias, que foi considerado pelo grupo bem curto para que logo já fosse realizada a implementação no trabalho, além da dependência de algumas partes do trabalho, tornando mais difícil o avanço no mesmo quando a implementação de alguma dessas tecnologias gerava erro.
+ - 
 
 ### 8. Comentários
 
@@ -137,3 +141,5 @@ Os frameworks utilizados pelo grupo para a realização desse projeto foram:
 - Mockup: Figma;
 - Front-end: Vue.js;
 - Servidor: JSON Server;
+
+Vale mencionar que a segurança dos dados e da aplicação em si não foi trabalhada nesse projeto. Os testes não foram realizados utilizando dados reais. 
