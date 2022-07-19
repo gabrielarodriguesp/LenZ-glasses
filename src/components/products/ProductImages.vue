@@ -1,16 +1,14 @@
 <template>
-  <section class="container-imgs">
-    <div class="big-img">
-      
-      <img v-if="this.mainImage" class="img-main" :src="require(`../../assets/products/img/${this.mainImage}`)">
-      <img v-else class="img-main" :src="require(`../../assets/products/img/${this.product.src[0]}`)">
+  <section class="container-imgs" v-if="product.imgs">
+    <div class="big-img">      
+      <img class="img-main" :src="`http://localhost:5000/product/image/${product.imgs[mainImage]}`">
     </div>
     <div class="small-img">
       <img class="others-img"
-      v-for="(img, index) in product.src"
+      v-for="(img, index) in product.imgs"
       :key="index"
-      :src="require(`../../assets/products/img/${img}`)"
-      @click="changeMainImage(img)"
+      :src="`http://localhost:5000/product/image/${img}`"
+      @click="changeMainImage(index)"
       >
     </div>
   </section>
@@ -22,13 +20,12 @@ export default {
   props: ['product'],
   data() {
     return {
-      mainImage: null
+      mainImage: 0
     }
   },
   methods: {
-
-    changeMainImage(img){
-      this.mainImage = img;
+    changeMainImage(index){
+      this.mainImage = index;
     }
   }
 }

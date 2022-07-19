@@ -10,6 +10,11 @@ const routes = [
     path: '/glasses',
     name: 'glasses',
     component: () => import('../views/glasses.vue')
+  },  
+  {
+    path: '/search/:name',
+    name: 'search',
+    component: () => import('../views/search.vue')
   },
   {
     path: '/sunglasses',
@@ -38,10 +43,9 @@ const routes = [
     component: () => import('../views/signup.vue')
   },
   {
-    path: '/product',
+    path: '/product/:id',
     name: 'product',
     component: () => import('../views/product.vue'),
-    props: true
   },
   {
     path: '/payment',

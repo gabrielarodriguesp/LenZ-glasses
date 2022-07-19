@@ -6,6 +6,7 @@
       </ul >
       <ul><a @click="editProduct()">Editar produtos</a></ul>
       <ul><a @click="addProduct()">Adicionar produtos</a></ul>
+      <ul><a @click="editUser()">Editar usuarios</a></ul>
       <ul><a @click="logout()">Sair da conta</a></ul>
     </li>
   </div>
@@ -19,6 +20,9 @@
     <section v-else-if="this.optionSelect=='addProduct'">
       <AdminAddProduct />
     </section>
+    <section v-else-if="this.optionSelect=='AdminEditUser'">
+      <AdminEditUser />
+    </section>
   </div>
 </template>
 
@@ -26,15 +30,17 @@
 import UserInfo from '../components/profile/UserInfo.vue'
 import AdminEditProduct from '../components/profile/admin/AdminEditProduct.vue'
 import AdminAddProduct from '../components/profile/admin/AdminAddProduct.vue'
+import AdminEditUser from '../components/profile/admin/AdminEditUser.vue'
 
 export default {
   name: "admin",
   components: {
     UserInfo,
     AdminEditProduct,
-    AdminAddProduct
+    AdminAddProduct,
+    AdminEditUser,
   },
-  emits: ['addProductToCart', 'LoginLogout', 'changeQntdCart'],
+  emits: ['LoginLogout'],
   data() {
     return {
       optionSelect: "info"
@@ -50,11 +56,19 @@ export default {
     addProduct(){
       this.optionSelect = "addProduct"
     },
+    editUser(){
+      this.optionSelect = "AdminEditUser"
+    },
     logout(){
       this.$emit('LoginLogout', null);
     }
   },
-
+  mounted() {
+    const loginUser = JSON.parse(localStorage.getItem("loginUser"))
+      if(!loginUser || !loginUser.admin){
+        this.$router.push('/');
+      }
+  }
 
   
 }

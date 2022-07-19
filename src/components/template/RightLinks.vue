@@ -1,12 +1,10 @@
 <template>
   <li>
     <i class="fa fa-shopping-cart"></i>
-    <span class="total-quantity">{{this.numberItems()}}</span>
-    <router-link :to="{
-      name: 'cart',
-      params: { dataToCart: JSON.stringify( this.dataCart ) },
-
-    }">Carrinho</router-link>
+    <span class="total-quantity">{{numberItens()}}</span>
+    <router-link to="/cart"
+      @change-qntd-cart=changeQntdCart()
+    >Carrinho</router-link>
   </li>
 
   <li v-if="!this.dataUser">
@@ -28,17 +26,23 @@ export default {
     dataUser: Object,
     dataCart: Object,
   },
+  data() {
+    return {
+      qntdOnCart: 0,
+    }
+  },
     methods: {
       // Quantidade de produtos no carrinho
       // Que sera mostrado ao lado do icone do carrinho
-      numberItems(){
+      numberItens(){
         let sum = 0;
-        if(this.dataCart){
-          for(let i = 0; i < this.dataCart.length; i++){
-            sum += this.dataCart[i].qntdCart;
+        const cartItens = JSON.parse(localStorage.getItem("cartItens"))
+        if(cartItens){
+          for(let i = 0; i < cartItens.length; i++){
+            sum += cartItens[i].qntdCart;
           }
         }
-        console.log(this.dataUser)
+        
         return sum;
       }
   },

@@ -42,7 +42,7 @@ export default{
   components:{
     ProductPage
   },
-  emits: ['addProductToCart', 'LoginLogout', 'changeQntdCart'],
+  emits: ['LoginLogout'],
   data(){
     return{
       bestGlassses: null,
@@ -52,22 +52,22 @@ export default{
   },
   methods: {
     compare(productA, productB) {
-      if (productA.amout > productB.amout)
+      if (productA.amount > productB.amount)
         return -1;
-      if (productA.amout < productB.amout)
+      if (productA.amount < productB.amount)
         return 1;
       return 0;
     },
     async getBestProducts() {
-      const glassesData = await fetch('http://localhost:3000/glasses');
-      const sunglassesData = await fetch('http://localhost:3000/sunglasses');
-      const lensData = await fetch('http://localhost:3000/lens');
+      const req = await fetch('http://localhost:5000/product');
+      const data = await req.json();
       
-      let glasses = await glassesData.json();
-      let sunglasses = await sunglassesData.json();
-      let lens = await lensData.json();
+      const glasses = Object.values(data).filter(item => item.category === 'glasses');
+      const sunglasses = Object.values(data).filter(item => item.category === 'sunglasses');
+      const lens = Object.values(data).filter(item => item.category === 'lens');
 
-      // 3 Maiores em relação a quantidade de estoque
+      // 3 produtos com maior quantidade de estoque
+      // de cada categoria
       this.bestGlassses = glasses.sort(this.compare).slice(0, 3);
       this.bestSunglasses = sunglasses.sort(this.compare).slice(0, 3);
       this.bestLens = lens.sort(this.compare).slice(0, 3);

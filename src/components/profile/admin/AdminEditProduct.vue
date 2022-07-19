@@ -1,54 +1,69 @@
 <template>
   <div class="admin-edit-product">
-    <section class="blueCard horizontalCenter">
-      <span class="bold"> Código do Produto: </span> 
-      <input type="text" class="blankInput" v-model="searchCode"> <br> <br>
-      <button class="importantBtn" @click="searchProduct()">PROCURAR</button> <br>
-      <h2 v-show='searchError'> Não há um produto com este código! </h2>
-    </section> 
+    <!-- 
+      Mostra lista de produtos disponiveis para editar,
+      sendo possivel escolher um.
+    -->
+    <section v-if="!this.selectedProduct" >
+      <ProductsToEdit v-if="products"
+        :products="products"
+        @selected-product="selectProductToEdit"
+      />
+    </section>
+    <!-- 
+      Caso tenha escolhido um produto para editar,
+      Mostra o formulario para alterar seus detalhes.      
+    -->
+    <section v-else>
+      <h1> Alterar somente a parte que desejar diferente!</h1>
+      <ProductForm 
+        @product-info="editProduct"
+        :newProduct="false"
+      />
+    </section>
   </div>  
 </template>
 
 <script>
+import ProductService from '../../ProductService.js';
+import ProductForm from '../../products/ProductForm.vue';
+import ProductsToEdit from '../../products/ProductsToEdit.vue';
+import axios from 'axios';
+
 export default {
   name: "AdminEditProduct",
+  emits: ["selectedProduct", "productInfo"],
+  components: {
+    ProductsToEdit,
+    ProductForm
+  },
   data() {
     return {
-      searchCode: "",
-      searchError: false,
-      products: [
-        {
-          imgPath: '../assets/products/img/glasses.png',
-          productName: "Oculus X",
-          productType: "grau",
-          productPrice: 100.00,
-          size: "0-0-0",
-          productDescription: "Um óculus perfeito para o dia-a-dia agitado.",
-          productCode: "0A2B3C4D"
-        },
-        {
-          imgPath: '../assets/products/img/glasses.png',
-          productName: "Oculus A",
-          productType: "sol",
-          productPrice: 250.00,
-          size: "0-0-0",
-          productDescription: "Seja a inveja de todos seus amigos na praia.",
-          productCode: "1A2B3C4D"
-        },
-      ]
+      products: null,
+      selectedProduct: null
     }
   },
   methods: {
-    searchProduct() {
-      for (let i = 0; i < this.products.length; i++) {
-        if(this.searchCode == this.products[i].productCode) {
-          console.log('achou!')
-          this.searchError = false
-          return
+    selectProductToEdit(product) {
+      this.selectedProduct = product
+    },
+
+    editProduct(product) {
+      for(var prop in product) {
+        if(!product[prop]){
+          product[prop] = this.selectedProduct[prop];
         }
       }
-      this.searchError = true
+      axios.put('http://localhost:5000/product/' + this.selectedProduct._id, product)
     },
+    
+  },
+  async mounted(){
+    try{
+      this.products = await ProductService.getProducts();
+    }catch(err){
+      console.log(err)
+    }
   }
 }
 </script>
@@ -94,4 +109,6 @@ h2{
   font-size: 32px;
   font-weight: 400;
 }
+
+
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <form>
+    <form  v-if="!forgetPass">
       <h3>Login</h3>
       <div class="email-field">
         <label>Email: </label>
@@ -13,13 +13,25 @@
       <div class="login-signup">
         <button class="btn btn-login" v-on:click.prevent="login()">Login</button>
         <div class="forget-pass">
-          <a href="">Esqueci minha senha</a>
+          <a @click="forgetPass=true">Esqueci minha senha</a>
         </div>
         <div class="new-account">
           Novo usuario?
           <router-link to="/signup">Registre-se</router-link>
         </div>
       </div>
+    </form>
+    <form v-else>
+      <h3>Login</h3>
+      <div class="email-field">
+        <label>Email: </label>
+          <input type="email" class="login-form" v-model="email" placeholder="Email">
+      </div>
+      <button class="btn btn-login" v-on:click.prevent="recoverPass()">Login</button>
+        <div class="new-account">
+          Novo usuario?
+          <router-link to="/signup">Registre-se</router-link>
+        </div>
     </form>
   </div>
 </template>
@@ -32,16 +44,21 @@ export default {
     return{
       email: "",
       password: "",
-      usersData: null
+      usersData: null,
+      forgetPass: false,
     }
   },
-  emits: ['addProductToCart', 'LoginLogout', 'changeQntdCart'],
+  emits: ['LoginLogout'],
   methods: {
     async getUserdata(){
-      const req = await fetch('http://localhost:3000/users');
+      const req = await fetch('http://localhost:5000/user');
       const data = await req.json();
       this.usersData = data;
-
+    },
+    recoverPass() {
+      alert('Email para recuperação de senha enviado!')
+      this.forgetPass = false;
+      
     },
     login(){
       for(let i = 0; i < this.usersData.length; i++){

@@ -5,8 +5,14 @@
     </router-link>
       <div v-show="!mobile" class="search-container">
         <form action="#">
-          <input type="text" name="search" class="search-product">
-          <button type="submit"><i class="fa fa-search"></i></button>
+          <input type="text" v-model="productName"  class="search-product">
+            <button type="submit">
+              <router-link :to="`/search/${productName}`" >
+
+              <i class="fa fa-search"></i>
+              </router-link>
+
+            </button>
         </form>
       </div>
       
@@ -19,8 +25,19 @@ export default {
     props: {
       mobile: Boolean,
     },
+    data(){
+      return{
+        productName: null,
+      }
+    },
+    methods: {
+      searchProduct(){
+        this.$router.push({
+          name: 'search/ui'
+        });
+      }
+    }
 }
-
 </script>
 
 <style scoped>
@@ -28,6 +45,9 @@ export default {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+a{
+  color: black;
 }
 #header{
   background-color: #48C9B0;

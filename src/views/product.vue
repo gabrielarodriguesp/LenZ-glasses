@@ -1,11 +1,12 @@
 <template>
-  <div class="container-product">
+  <div class="container-product" v-if="product">
     <ProductImages :product="product"/>
     <ProductPrincipal 
       :product="product" 
       @add-product-to-cart="addProductToCart"
     />
     <ProductDescription :product="product"/>
+  
   </div>
 </template>
 
@@ -13,6 +14,7 @@
 import ProductDescription from '../components/products/ProductDescription.vue'
 import ProductPrincipal from '../components/products/ProductPrincipal.vue'
 import ProductImages from '../components/products/ProductImages.vue'
+import axios from 'axios';
 
 export default {
   name: 'product',
@@ -29,14 +31,20 @@ export default {
   props: {
     currProduct: String
   },
-  emits: ['addProductToCart', 'LoginLogout', 'changeQntdCart'],
-  created() {
-    console.log(this.currProduct)
-    this.product = JSON.parse(this.currProduct)
+  emits: ['LoginLogout'],
+  async created() {
+    let res = await axios.get('http://localhost:5000/product/' + this.$route.params.id);
+    this.product = res.data;
+    // this.product = JSON.parse(this.currProduct)
+    // this.getProduct();
   },
   methods: {
-      addProductToCart(){
-        this.$emit("addProductToCart", this.product)
+    async getProduct(){
+      // this.product = await axios.get('http://localhost:5000/product/' + this.$route.params.id)
+
+    },
+    addProductToCart(){
+      this.$emit("addProductToCart", this.product)
     }
   }
 }
@@ -52,7 +60,6 @@ export default {
 
 .container-product{
   border: 2px solid #48C9B0;
-  /* background-color: #48C9B0; */
   padding: 10vh 4vw;
   border-radius: 20px;
   margin: 5vh 10vw;

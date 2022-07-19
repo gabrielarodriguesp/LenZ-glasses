@@ -1,11 +1,8 @@
 <template>
   <div class="card">
     <div class="card-img">
-          <router-link :to="{
-            name: 'product',
-            params: { currProduct: JSON.stringify(product ) },
-          }">
-        <img :src="require(`../../assets/products/img/${product.src[0]}`)">
+      <router-link :to="`/product/${product._id}`" >
+        <img :src="`http://localhost:5000/product/image/${product.imgs[0]}`">
       </router-link>
     </div>
     <div class="title">
@@ -16,9 +13,12 @@
     </div>
 
     <div>
-      <button class="buy-btn" @click="$emit('AddProduct')" >
+      <button class="buy-btn" @click="addProduct(product)" v-if="product.amount > 0">
         Comprar
       </button>
+      <strong v-else>
+        Sem estoque
+      </strong>
     </div>
   </div>
 
@@ -29,7 +29,46 @@
 export default {
   name: 'product',
   props: ['product'],
-  emits: ['AddProduct']
+  emits: ['AddProduct'],
+  methods: {
+
+    addProduct(product){
+      let cartItens = JSON.parse(localStorage.getItem("cartItens"))
+      let sizeCart = 0;
+
+      if(cartItens){
+        sizeCart = cartItens.length;
+        let newProduct = true;
+      
+        for(let i = 0; i < sizeCart; i++){
+          if(cartItens[i]._id === product._id){
+            cartItens[i].qntdCart++;
+            newProduct = false;
+          }
+        }
+      
+        // Se for um item novo no carrinho
+        if(newProduct){
+          product.qntdCart = 1;
+          cartItens[sizeCart] = product;
+        }
+        localStorage.setItem("cartItens", JSON.stringify(cartItens))
+      
+      } else {
+        //carrinho vazio
+
+        let cartItens = []
+        product.qntdCart = 1;
+        cartItens[sizeCart] = product;
+        localStorage.setItem("cartItens", JSON.stringify(cartItens))
+      }
+
+      this.$router.push({
+        name: 'cart'
+      });
+    },
+
+  }
 }
 </script>
 
@@ -70,5 +109,9 @@ export default {
   box-shadow: 0px 5px 5px gray;
   background-color: #48C9B0;
   cursor: pointer;
+}
+
+strong{
+  color: red;
 }
 </style>

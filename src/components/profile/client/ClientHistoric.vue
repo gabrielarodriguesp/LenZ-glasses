@@ -1,124 +1,67 @@
 <template>
   <div class="client-historic">
-    <section class="blueCard" >
-    <h2> Data da compra: {{localizeDate(purchase[indexCompra].datePurchase)}} </h2>
+    <section class="blueCard" v-if="orders.length > 0">
+    <h2> Data da compra: {{localizeDate(orders[indexOrder].date)}} </h2>
     <table width="80%" class="historyTable">
       <thead>
-        <td></td>
+        <td>Imagem</td>
         <td>Produto</td>
         <td>Preço Unitário</td>
         <td>Qnt.</td>
         <td>Subtotal</td>
       </thead>
-
-      <tbody class="cart-container">
-        <tr v-for="(product, index) in purchase[indexCompra].products" :key="index">
-          <td><img class="product-img" :src="require(`../../../assets/products/img/${product.imgPath}`)"> </td>
+      <tbody class="cart-container" v-if="orders.length">
+        <tr v-for="(product, index) in orders[indexOrder].products" :key="index">
+          <td><img class="product-img" :src="`http://localhost:5000/product/image/${product.imgMain}`"> </td>
+          
           <td> {{ product.name }} </td>
-          <td> <span class="bold"> R$ </span> {{ showDecimal(product.price) }} </td>
+          <td> <span> R$ </span> {{ showDecimal(product.price) }} </td>
           <td> {{ product.quantity }} </td>
-          <td> <span class="bold"> R$ </span> {{ showDecimal(product.quantity*product.price) }} </td>
+          <td> <span> R$ </span> {{ showDecimal(product.quantity*product.price) }} </td>
         </tr>
-        <tr class = priceTotal>
+        <tr class="priceTotal">
           <td colspan="5">
             Total:&emsp;
-            <span class="bold"> R$ </span> {{ showDecimal(purchase[indexCompra].totalPrice) }} 
+            <span> R$ </span> {{ showDecimal(orders[indexOrder].totalPrice) }} 
           </td>
         </tr>
-        <tr class = priceTotal>
+        <tr class ="priceTotal">
           <td colspan="5">
-            <button id='leftArrowBtn' :class="this.leftArrowBtn" @click="minusPurchaseIndex(); sumTotalPrice();"> &lt; </button>
-            <button id='rightArrowBtn' :class="this.rightArrowBtn" @click="plusPurchaseIndex(); sumTotalPrice();"> &gt; </button>
+            <button class="arrowBtn" @click="indexOrder!=0 ? indexOrder-- : indexOrder=0"> 
+            <!-- Botao para pagina da esquerda ou '<' (less than) -->
+              &lt;   
+            </button>
+
+            
+            
+            <button class="arrowBtn" 
+            @click="indexOrder+1 != orders.length ? indexOrder++ : indexOrder= orders.length"> 
+            <!-- Botao para pagina da direita ou '>' (greater than) -->
+              &gt; 
+            </button>
+          <p>Pagina {{indexOrder + 1}}</p>
+
           </td>
         </tr>
+
       </tbody>
     </table>
-  </section> 
+  </section>
+  <h2 v-else>Nenhuma compra</h2>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: "ClientHistoric",
   data () {
     return {
-      indexCompra: 0,
-      leftArrowBtn: 'disabledArrowBtn',
-      rightArrowBtn: 'arrowBtn',
-      indexCompra: 0,
-      purchase: [
-          {
-            datePurchase: "2022-07-24",
-            totalPrice: 0,
-            products: [
-              {
-                imgPath: 'glasses.png',
-                name: "Oculos X",
-                price: 100.00,
-                quantity: 6,
-              },
-              {
-                imgPath: 'sunglasses-1.png',
-                name: "Oculos Y",
-                price: 150.00,
-                quantity: 2,
-              },
-              {
-                imgPath: 'sunglasses-2.png',
-                name: "Oculos Z",
-                price: 200.00,
-                quantity: 1,
-              },	
-            ],
-          },
-          {
-            datePurchase: "2021-06-23",
-            totalPrice: 0,
-
-            products: [
-              {
-                imgPath: 'sunglasses-3.png',
-                name: "Oculos A",
-                price: 50.00,
-                quantity: 4,
-              },
-              {
-                imgPath: 'sunglasses-4.png',
-                name: "Oculos B",
-                price: 12.99,
-                quantity: 2,
-              },
-            ],
-          },
-        ],
+      currentUser: null,
+      orders: [],
+      indexOrder: 0,
     }
-  },
-  methods: {
-    minusPurchaseIndex() {
-      this.indexCompra--
-      if (this.indexCompra == 0) {
-        document.getElementById('leftArrowBtn').disabled = true
-        this.leftArrowBtn = 'disabledArrowBtn'
-      }
-      document.getElementById('rightArrowBtn').disabled = false
-      this.rightArrowBtn = 'arrowBtn'
-    },
-    plusPurchaseIndex() {
-      this.indexCompra++
-      if (this.indexCompra == this.purchase.length-1) {
-        document.getElementById('rightArrowBtn').disabled = true
-        this.rightArrowBtn = 'disabledArrowBtn'
-      }
-      document.getElementById('leftArrowBtn').disabled = false
-      this.leftArrowBtn = 'arrowBtn'
-    },
-    sumTotalPrice() {
-      this.purchase[this.indexCompra].totalPrice = 0
-      for (let i = 0; i < this.purchase[this.indexCompra].products.length; i++) {
-        this.purchase[this.indexCompra].totalPrice = this.purchase[this.indexCompra].totalPrice + 
-        this.purchase[this.indexCompra].products[i].quantity*this.purchase[this.indexCompra].products[i].price
-      }
-    },
   },
   computed: {
     showDecimal(){
@@ -135,6 +78,13 @@ export default {
         return `${dd}/${mm}/${yyyy}`
       }
     },
+  },
+  created() {
+    this.currentUser = JSON.parse(localStorage.getItem("loginUser"))
+    axios.get('http://localhost:5000/user/' + this.currentUser._id).
+      then(res => {
+        this.orders = res.data.orders;
+    })
   }
 }
 </script>
@@ -182,7 +132,7 @@ export default {
   padding-right: 10%;
   font-size: 32px;
 }
-.bold{
+span{
   font-weight: bold;
 }
 .product-img{

@@ -1,18 +1,18 @@
 <template>
   <div class="user-info" v-if="showSection=='info'">
     <table class="blueCard" v-if="sectionSwitch==3">
-      <tr> <td colspan="3" class="innerCell"><span class="bold">Nome: </span> {{ userName }} </td></tr>
+      <tr> <td colspan="3" class="innerCell"><span class="bold">Nome: </span> {{ user.info.name }} </td></tr>
       <tr>
-        <td class="innerCell"><span class="bold"> Data de Nascimento: </span> {{ localizeDate(userDateBirth) }}</td>
-        <td class="innerCell"><span class="bold"> CPF: </span> {{ showCPF(userCPF) }} </td>
-        <td class="innerCell"><span class="bold"> Telefone: </span> {{ showTelephone(userTelephone) }} </td>
+        <td class="innerCell"><span class="bold"> Data de Nascimento: </span> {{ localizeDate(user.info.birthday) }}</td>
+        <td class="innerCell"><span class="bold"> CPF: </span> {{ showCPF(user.info.CPF) }} </td>
+        <td class="innerCell"><span class="bold"> Telefone: </span> {{ showTelephone(user.info.CPF) }} </td>
       </tr> 
       <tr>
-        <td class="innerCell" colspan="2"> <span class="bold">EMAIL: </span> {{ userEmail }} </td>
-        <td class="innerCell"><span class="bold"> CEP: </span> {{ showCEP(userCEP) }}</td>
+        <td class="innerCell" colspan="2"> <span class="bold">EMAIL: </span> {{ user.email }} </td>
+        <td class="innerCell"><span class="bold"> CEP: </span> {{ showCEP(user.info.CEP) }}</td>
       </tr>
       <tr>
-        <td class="innerCell" colspan="3"><span class="bold"> Endereço: </span> {{ userAddress }}</td>
+        <td class="innerCell" colspan="3"><span class="bold"> Endereço: </span> {{ user.info.address }}</td>
       </tr>
       <tr>
         <td class="innerCell"></td>
@@ -29,11 +29,6 @@
             ALTERAR SENHA
           </button> 
         </td>
-
-        <!-- <td colspan="2" class="innerCell">
-          <input type="button" value="ALTERAR INFORMAÇÕES" class='rightBtn' @click="this.showSection='changeInfo'">
-          <input type="button" value="ALTERAR SENHA" class='rightBtn' @click="this.showSection='changePass'"> 
-        </td> -->
       </tr>
     </table>
   </div>  
@@ -46,15 +41,8 @@
   <div class="change-pass" v-if="showSection=='changePass'">
     <ChangeUserPass
       @backToInfo="this.showSection='info'"
-      :userName="this.userName"
-      :userDateBirth="this.userDateBirth"
-      :userCPF="userCPF"
-      :userTelephone="userTelephone"
-      :userCEP="userCEP"
-      :userAddress="userAddress"
-      :userEmail="userEmail"
-      :userPassword="userPassword"
     />
+
   </div>
 </template>
 
@@ -68,8 +56,24 @@ export default {
     ChangeUserPass,
     ChangeUserInfo
   },
+  
   data() {
     return {
+      user: {
+        email: "",
+        password: "",
+        buys: [],
+        info: {
+          name: "",
+          birthday: "",
+          CPF: "",
+          tel: "",
+          CEP: "",
+          address: "",
+        }
+      
+      },
+
       showSection: 'info',
 
       sectionSwitch:3,
@@ -96,6 +100,8 @@ export default {
       tempPassword1: "",
     }
   },
+
+  
   computed: {
     localizeDate(){
       return(date)=>{
@@ -148,7 +154,9 @@ export default {
       }
     }
   },
- 
+  created() {
+    this.user = JSON.parse(localStorage.getItem("loginUser"))
+  },
 
   methods: {
 

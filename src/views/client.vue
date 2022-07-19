@@ -34,7 +34,7 @@ export default {
     ClientAgend,
     ClientHistoric
   },
-  emits: ['addProductToCart', 'LoginLogout', 'changeQntdCart'],
+  emits: ['LoginLogout'],
   data() {
     return {
       optionSelect: "info"
@@ -53,6 +53,12 @@ export default {
     logout(){
       this.$emit('LoginLogout', null);
     }
+  },
+  mounted() {
+    const loginUser = JSON.parse(localStorage.getItem("loginUser"))
+      if(!loginUser || loginUser.admin){
+        this.$router.push('/');
+      }
   }
 }
 </script>

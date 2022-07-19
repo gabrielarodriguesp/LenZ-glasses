@@ -16,7 +16,7 @@ export default{
     ProductCard,
     ProductPage
   },
-  emits: ['addProductToCart', 'LoginLogout', 'changeQntdCart'],
+  emits: ['LoginLogout'],
   data(){
     return{
       glasses: null
@@ -24,9 +24,10 @@ export default{
   },
   methods: {
     async getGlasses() {
-      const req = await fetch('http://localhost:3000/glasses');
+      const req = await fetch('http://localhost:5000/product');
       const data = await req.json();
-      this.glasses = data;
+      
+      this.glasses = Object.values(data).filter(item => item.category === 'glasses');
     },
     addProductToCart(product){
       this.$emit("addProductToCart", product)

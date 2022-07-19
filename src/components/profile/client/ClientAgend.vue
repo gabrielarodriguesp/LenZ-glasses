@@ -1,47 +1,67 @@
 <template>
   <div class="client-agend">
         <!-- Agendamento de Exames -->
-    <section class="blueCard">
-      <h2 v-if="exams.length==0"> Você ainda não agendou um exame conosco! </h2>
-      <table v-if="exams.length>0">
-        <thead>
-          <tr>
-            <td>Dia</td>
-            <td>Hora</td>
-            <td></td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(exam, index) in exams" :key="index">
-            <td>{{ localizeDate(exam.date)}}</td>
-            <td>{{ exam.time }}</td>
-            <td>
-              <button class="importantBtn" @click="cancelExam(index)">
-                CANCELAR
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <section class="line"></section>
-      <br> Marque um Exame:
-      <br> Dia: <input type="date" class="blankInput" v-model="tempExamDate"> 
-      <br> Hora: <input type="time" class="blankInput" v-model="tempExamTime"> 
-      <button class="importantBtn" @click="markExam()">MARCAR EXAME</button>  
+    <section class="blueCard"  v-if="currentUser">
+      <div class="existing-exams">
+        <table v-if="currentUser.exam.length>0">
+          <thead>
+            <tr>
+              <td>Dia</td>
+              <td>Hora</td>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(exam, index) in currentUser.exam" :key="index">
+              <td>{{ localizeDate(exam.date)}}</td>
+              <td>{{ (exam.time)}}: 00 horas</td>
+              <td>
+                <button class="importantBtn" @click="cancelExam(exam)">
+                  CANCELAR
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h2 v-else> Você ainda não agendou um exame conosco!</h2>
+      </div>
+      
+      <div class="new-exams">
+        <span class="line"></span>
+        <br> Marque um Exame:
+        <br> Dia: <input type="date" class="blankInput" v-model="examDate" @change="getTime()"> 
+        <br> 
+        <section  v-if="examDate">
+          Horario:
+          <select v-model="examTime">
+            <option 
+              v-for="(userID, hour, index) in avaibleTime"
+              :key="index"
+              v-show="!userID"
+              :value="hour" >{{hour}}:00 hrs</option>
+          </select>
+        </section>
+        <br>
+        <button class="importantBtn" @click="markExam()">MARCAR EXAME</button>
+      </div>
     </section>
   </div>  
 </template>
-
 <script>
+import axios from 'axios';
+
 export default {
   name: "ClientAgend",
   data(){
     return {
-      tempExamDate: "",
-      tempExamTime: "",
-      exams: [],
-      rightArrowBtn: 'arrowBtn',
-      leftArrowBtn: 'arrowBtn',
+      examDate: "",
+      examTime: null,
+      exams: null,
+      userID: null,
+      currentExam: null,
+      currentUser: null,
+      avaibleTime: null,
+      newDate: true,
     }
   },
   computed: {
@@ -55,19 +75,102 @@ export default {
       }
     },
   },
+  async mounted() {
+      let user = JSON.parse(localStorage.getItem("loginUser"));
+      let res = await axios.get('http://localhost:5000/user/' + user._id);
+      this.currentUser = res.data
+  },
   methods: {
+
     markExam() {
-      let obj = {date: this.tempExamDate, time: this.tempExamTime}
-      this.exams.push(obj)
+      if(!this.examTime){
+        alert('É necessario escolher um horario');
+        return;
+      }
+
+      this.avaibleTime[this.examTime] = this.currentUser._id;
+      let examDay = {
+        date: this.examDate,
+        time: this.avaibleTime
+      }
+
+      if(this.newDate){
+        axios.post('http://localhost:5000/exam/', examDay)
+      } else {
+        axios.put('http://localhost:5000/exam/' + examDay.date, examDay.time)
+      }
+      let examUser = {
+        date: this.examDate,
+        time: this.examTime
+      }
+      axios.put('http://localhost:5000/user/exam/new/' + this.currentUser._id, examUser);
+      alert('Exame marcado com sucesso!');
+      this.$router.go()
+
     },
-    cancelExam(x) {
-      this.exams.splice(x, 1)
+
+    async cancelExam(exam) {
+      let res = await axios.get('http://localhost:5000/exam/' + exam.date);
+      let examsAvaibleTime = res.data.time;
+
+      examsAvaibleTime[exam.time] = null; // Horario cancelado
+
+      let counterAvaibleTime = 0;
+      for(var hour in examsAvaibleTime){
+        if(examsAvaibleTime[hour]){
+          counterAvaibleTime++;
+        }
+      }
+
+      //Se nao tem mais horarios marcados, apagar a data
+      if(counterAvaibleTime == 0){
+        axios.delete('http://localhost:5000/exam/' + exam.date, exam.time);
+      }
+      //Caso tenha outro horario marcado, modificar para remover apenas o horario 
+      else {
+        axios.put('http://localhost:5000/exam/' + exam.date, examsAvaibleTime);
+
+      }
+
+      axios.put('http://localhost:5000/user/exam/delete/' + this.currentUser._id, exam);
+      alert('Exame cancelado com sucesso!');
+      this.$router.go()
+
+
+
     },
+
+    async getTime(){
+      if(!this.examDate){
+        return null;
+      }
+      let res = await axios.get('http://localhost:5000/exam/' + this.examDate);
+      if(res.data){
+        this.avaibleTime = res.data.time;
+        this.newDate = false;
+      }
+      else{
+        this.avaibleTime = {
+          "7": null,
+          "8": null,
+          "9": null,
+          "10": null,
+          "11": null,
+        };
+
+        this.newDate = true;
+      }
+      return;
+    }
   }
 }
 </script>
 
 <style scoped>
+td{
+  padding-right: 30px; 
+  /* margin-right: 30px;  */
+}
 .blueCard {
   background-color: #99D9EA;
   border-radius: 20px;

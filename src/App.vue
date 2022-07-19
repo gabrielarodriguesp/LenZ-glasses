@@ -8,9 +8,7 @@
     </header>
     <div id="body">
       <router-view 
-        @add-product-to-cart="addProductToCart"
         @login-logout="LoginLogout"
-        @change-qntd-cart="changeQntdCart"
       />
     </div>
     <footer>
@@ -35,36 +33,6 @@ export default {
     }
   },
   methods: {
-    goToCart(){
-      this.$router.push({
-        name: 'cart',
-        params: { dataToCart: JSON.stringify( this.dataCart ) },
-    });
-    },
-
-    // Funcao chamada na pagina de produtos
-    addProductToCart(data){
-      let sizeCart = this.dataCart.length;
-
-      let newProduct = true;
-      for(let i = 0; i < sizeCart; i++){
-        if(this.dataCart[i].code === data.code){
-          this.dataCart[i].qntdCart++;
-          newProduct = false;
-        }
-      }
-      
-      // Se for um item novo no carrinho
-      if(newProduct){
-        data.qntdCart = 1;
-        this.dataCart[sizeCart] = data;
-      }
-      //alert('item adicionado ao carrinho')
-      localStorage.setItem("cartItens", JSON.stringify(this.dataCart))
-
-      this.goToCart();
-    },
-
     
     // Se a nova quantidade for 0, exclui o item
     // Funcao chamada na pagina 'carrinho'
@@ -94,23 +62,18 @@ export default {
   },
   created() {
     const loginUser = JSON.parse(localStorage.getItem("loginUser"))
-    if(loginUser){
-      this.dataUser = loginUser;
-    }
-
+      if(loginUser){
+        this.dataUser = loginUser;
+      }
     const cartItens = JSON.parse(localStorage.getItem("cartItens"))
-    
     if(cartItens){
       this.dataCart = cartItens;
     }
-
   }
 }
 </script>
 
 <style>
-*{
-}
 
 body {
   margin:0;

@@ -15,7 +15,7 @@ export default{
   components:{
     ProductPage
   },
-  emits: ['addProductToCart', 'LoginLogout', 'changeQntdCart'],
+  emits: ['LoginLogout'],
   data(){
     return{
       lenses: null
@@ -23,9 +23,10 @@ export default{
   },
   methods: {
     async getLens() {
-      const req = await fetch('http://localhost:3000/lens');
+      const req = await fetch('http://localhost:5000/product');
       const data = await req.json();
-      this.lenses = data;
+      
+      this.lenses = Object.values(data).filter(item => item.category === 'lens');
     },
     addProductToCart(product){
       this.$emit("addProductToCart", product)

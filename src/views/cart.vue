@@ -14,11 +14,10 @@
       :key="product.id"
       >
         <tr v-show="product.qntdCart > 0">
-          <!-- <td><i class="fa fa-trash" @click="$emit('AddCart', )"></i></td> -->
-          <td><i class="fa fa-trash" @click="delProduct(productsOnCart, index)"></i></td>
+          <td><i class="fa fa-trash" @click="changeQntdCart(0, index)"></i></td>
           <td>
             <img class="product-img" 
-            :src="require(`../assets/products/img/${product.src[0]}`)"></td>
+            :src="`http://localhost:5000/product/image/${product.imgs[0]}`"></td>
           <td>
             <h5>{{product.name}}</h5>
           </td>
@@ -27,10 +26,9 @@
           </td>
           <td>
             <input type="number" 
-            v-model="product.qntdCart" 
-            v-on:change="AddItensCart(product.qntdCart, index)"
-            name="qntd" id="qtndInput"
-
+              v-model="product.qntdCart" 
+              v-on:change="changeQntdCart(product.qntdCart, index)"
+              name="qntd" id="qtndInput"
             min="1">
           </td>
           <td>
@@ -47,17 +45,17 @@
         <td>R$ {{calcTotal(this.productsOnCart)}}</td>
       </tfoot>
     </table>
-    <button class="btn continue-buy">
       <router-link to="/">
-        CONTINUAR COMPRANDO
+        <button class="btn continue-buy">
+          <p>CONTINUAR COMPRANDO</p>
+        </button>
       </router-link>
-    </button>
-    <button class="btn ckeckout-button" @click="checkLogin()">
-        FINALIZAR COMPRA
 
       <router-link to="/payment">
+        <button class="btn ckeckout-button" @click="checkLogin()">
+          <p>FINALIZAR COMPRA</p>
+        </button>
       </router-link>
-    </button>
     
   </section>
 
@@ -68,26 +66,48 @@ export default {
   name: "cart",
   data() {
     return{
-      productsOnCart: null
+      productsOnCart: []
     }
   },
-  props: ['dataToCart'],
-  emits: ['addProductToCart', 'LoginLogout', 'changeQntdCart'],
+  emits: ['LoginLogout', 'changeQntdCart'],
   mounted() {
 
     const cartItens = JSON.parse(localStorage.getItem("cartItens"))
     if(cartItens){
-      this.productsOnCart = cartItens;
+      for(let i = 0; i < cartItens.length; i++){
+        if(cartItens[i].amount>0)
+          this.productsOnCart.push(cartItens[i]);
+      }
+      localStorage.setItem("cartItens", JSON.stringify(this.productsOnCart))
+
     }
-    // console.log(this.dataToCart)
-    if(this.dataToCart)
-      this.productsOnCart = JSON.parse(this.dataToCart)
   },
   methods: {
+    
+    // Altera a quantidade de um produto que esta no carrinho
+    changeQntdCart(newQntd, indexProduct){
+      const cartItens = JSON.parse(localStorage.getItem("cartItens"))
+
+      // Quantidade maior que o estoque
+      if(cartItens[indexProduct].amount < newQntd){
+        alert('Quantidade de itens maior que o estoque')
+        cartItens[indexProduct].qntdCart = cartItens[indexProduct].amount;
+      }
+      // Remover item do carrinho
+      else if (newQntd == 0){
+        cartItens.splice(indexProduct, 1);
+      } else {
+        cartItens[indexProduct].qntdCart = newQntd;
+      } 
+      
+      localStorage.setItem("cartItens", JSON.stringify(cartItens))
+      this.$router.go()
+    },
+
     delProduct(productsOnCart, index){
       productsOnCart.splice(index, 1);
       // Muda quantidade do carrinho para 0
-      this.$emit('changeQntdCart', index, 0)
+      this.changeQntdCart(index, 0)
     },
     calcTotal(products){
       let sum = 0;
@@ -104,7 +124,6 @@ export default {
     },
     checkLogin(){
       this.infoUser = JSON.parse(localStorage.getItem("loginUser"))
-      // console.log(this.infoUser)
       if(this.infoUser){
         this.$router.push('payment');
       }
@@ -160,8 +179,7 @@ td:first-child {
   height: 45px;
   background-color: #48C9B0;
   border-radius: 15px;
-  text-align: center;
-  line-height: 40px;
+  line-height: 50%;
   margin: 30px;
   display: block;
 }
@@ -178,17 +196,14 @@ td:first-child {
   float: right;
 }
 
-li, a {
+li, p {
+  padding: 0px;
+  
   font-family: 'Lilita One', cursive;
   text-decoration: none;
   color: #4D5656;
 }
 
-a:hover{
-  color: black;
-  border-color: #4D5656;
-  border-bottom: 2px solid #4D5656;
-}
 td{
   border: 1px solid;
 }
