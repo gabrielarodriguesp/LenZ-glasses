@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'ChangeUserPass',
   data() {
@@ -32,8 +34,12 @@ export default {
     changePasswordConfirm() {
       if(this.tempPassword0 == this.tempPassword1) {
         this.clientPassword = this.tempPassword0
+        let userData = JSON.parse(localStorage.getItem("loginUser"))
+        axios.put('http://localhost:5000/user/pass/' + userData._id, this.clientPassword)
+        
         alert("Senha alterada com sucesso!")
         this.$emit('backToInfo')
+
       } else {
         alert("As senhas devem ser iguais!")
       }

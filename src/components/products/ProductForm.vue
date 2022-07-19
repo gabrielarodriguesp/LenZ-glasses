@@ -3,7 +3,7 @@
     <tr>
       <td colspan="2">
         <span> Nome do Produto </span>
-        <br><input type="text" v-model="product.name"> <br><br>
+        <br><input type="text" v-model="product.name">
       </td>
     </tr>
     <tr>
@@ -17,6 +17,15 @@
       </td>
     </tr>
     <tr>
+
+      <td>
+        <span> Garantia (meses)</span>
+        <br><input type="text" v-model="product.warranty"><br>
+      </td>
+      
+    </tr>
+    <h1>DESCRIÇÃO DO PRODUTO</h1> <br>
+    <tr>
       <td>
         <span> Tipo do Produto </span><br><br>
         <input type="radio" v-model="product.category" value="glasses"> 
@@ -26,14 +35,8 @@
         <input type="radio" v-model="product.category" value="lens"> 
           Lentes de Contato<br>
       </td>
-      <td>
-        <span> Garantia (meses)</span>
-        <br><input type="text" v-model="product.warranty"><br>
-      </td>
-      
     </tr>
-    <h1>DESCRIÇÃO DO PRODUTO</h1>
-
+    
     <section v-if="product.category!='lens'">
       <tr>
         <td colspan="2">

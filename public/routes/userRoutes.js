@@ -67,11 +67,8 @@ router.put('/info/:id', async(req, res) => {
   const user = await User.findOne({_id: id});
   user.info = req.body.info;
   user.email = req.body.email;
-  console.log('user')
-  console.log(user)
   user.save();
 });
-
 
 router.put('/admin/:id', async(req, res) => {
   const id = req.params.id;
@@ -80,6 +77,15 @@ router.put('/admin/:id', async(req, res) => {
   
   user.save();
 });
+
+
+//router.put('/pass/:id', async(req, res) => {
+  //const id = req.params.id;
+  //const user = await User.findOne({_id: id});
+  //user.password = !user.admin;
+  //console.log(req.body)
+  //user.save(req.body);
+//});
 
 router.put('/order/:id', async(req, res) => {
   const id = req.params.id;
