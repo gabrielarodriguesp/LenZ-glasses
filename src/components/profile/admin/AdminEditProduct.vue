@@ -54,7 +54,9 @@ export default {
           product[prop] = this.selectedProduct[prop];
         }
       }
-      axios.put('http://localhost:5000/product/' + this.selectedProduct._id, product)
+      axios.put('http://localhost:5000/product/' + this.selectedProduct._id, product);
+      alert('Alteração feita com sucesso');
+      this.$router.go();
     },
     
   },

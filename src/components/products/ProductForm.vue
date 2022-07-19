@@ -3,102 +3,102 @@
     <tr>
       <td colspan="2">
         <span> Nome do Produto </span>
-        <br><input type="text" v-model="state.product.name"> <br><br>
+        <br><input type="text" v-model="product.name"> <br><br>
       </td>
     </tr>
     <tr>
       <td>
         <span> Preço do Produto </span>
-        <br><input type="text" v-model="state.product.price" @keypress="isNumber($event)">
+        <br><input type="text" v-model="product.price" @keypress="isNumber($event)">
       </td>
       <td>
         <span> Quantidade em estoque</span>
-        <br><input type="text" v-model="state.product.amount"><br>
+        <br><input type="text" v-model="product.amount"><br>
       </td>
     </tr>
     <tr>
       <td>
         <span> Tipo do Produto </span><br><br>
-        <input type="radio" v-model="state.product.category" value="glasses"> 
+        <input type="radio" v-model="product.category" value="glasses"> 
           Óculos de Grau<br>
-        <input type="radio" v-model="state.product.category" value="sunglasses"> 
+        <input type="radio" v-model="product.category" value="sunglasses"> 
           Óculos de Sol<br>
-        <input type="radio" v-model="state.product.category" value="lens"> 
+        <input type="radio" v-model="product.category" value="lens"> 
           Lentes de Contato<br>
       </td>
       <td>
         <span> Garantia (meses)</span>
-        <br><input type="text" v-model="state.product.warranty"><br>
+        <br><input type="text" v-model="product.warranty"><br>
       </td>
       
     </tr>
     <h1>DESCRIÇÃO DO PRODUTO</h1>
 
-    <section v-if="state.product.category!='lens'">
+    <section v-if="product.category!='lens'">
       <tr>
         <td colspan="2">
           <span> Material da lente </span>
           <br><input type="text"
-              v-model="state.descriptionGlasses['Material da lente']"> <br><br>
+              v-model="descriptionGlasses['Material da lente']"> <br><br>
         </td>
       </tr>
       <tr>
         <td colspan="2">
           <span> Material da armação </span>
-          <br><input type="text" v-model="state.descriptionGlasses['Material da armação']"> <br><br>
+          <br><input type="text" v-model="descriptionGlasses['Material da armação']"> <br><br>
         </td>
       </tr>
       <tr>
         <td colspan="2">
           <span> Proteção da lente </span>
-          <br><input type="text" v-model="state.descriptionGlasses['Proteção da lente']"> <br><br>
+          <br><input type="text" v-model="descriptionGlasses['Proteção da lente']"> <br><br>
         </td>
       </tr>
       <tr>
         <td>
           <span> Cor da lente </span>
-          <br><input type="text" v-model="state.descriptionGlasses['Cor da lente']"> <br><br>
+          <br><input type="text" v-model="descriptionGlasses['Cor da lente']"> <br><br>
         </td>
         <td>
           <span> Cor da armação </span>
-          <br><input type="text" v-model="state.descriptionGlasses['Cor da Armação']"> <br><br>
+          <br><input type="text" v-model="descriptionGlasses['Cor da Armação']"> <br><br>
         </td>
       </tr>
 
-      <td rowspan="2" v-if="state.product.category!='lens'">
+      <td rowspan="2" v-if="product.category!='lens'">
         <span> Tamanho do Produto </span><br><br>
-        Lente (cm):
+        Lente (cm): 
         <input type="text" 
-            v-model="state.descriptionGlasses['Tamanho da lente (cm)']" 
+            v-model="descriptionGlasses['Tamanho da lente (cm)']" 
             @keypress="isNumber($event)"> <br><br>
         Ponte (cm): 
         <input type="text" 
-            v-model="state.descriptionGlasses['Tamanho da ponte (cm)']" 
+            v-model="descriptionGlasses['Tamanho da ponte (cm)']" 
             @keypress="isNumber($event)"> <br><br>
         Haste (cm): 
         <input type="text" 
-          v-model="state.descriptionGlasses['Tamanho da haste (cm)']" 
+          v-model="descriptionGlasses['Tamanho da haste (cm)']" 
           @keypress="isNumber($event)"> <br>
       </td>
     </section>
 
-    <section v-if="state.product.category=='lens'">
+    <section v-if="product.category=='lens'">
       <tr>
         <td>
           <span> Tempo de substituiçao </span>
-          <br><input type="text" v-model="state.descriptionLens['Tempo de substituição']"> <br><br>
+          <br><input type="text" v-model="descriptionLens['Tempo de substituição']"> <br><br>
         </td>
         <td>
           <span> Material </span>
-          <br><input type="text" v-model="state.descriptionLens['Material']"> <br><br>
+          <br><input type="text" v-model="descriptionLens['Material']"> <br><br>
         </td>
         <td>
           <span> Diametro </span>
-          <br><input type="text" v-model="state.descriptionLens['Diametro']"> <br><br>
+          <br><input type="text" v-model="descriptionLens['Diametro']"> <br><br>
         </td>
         <td>
           <span> Pares por pacote </span>
-          <br><input type="text" v-model="state.descriptionLens['Pares por pacote']"> <br><br>
+          <br><input type="text" v-model="descriptionLens['Pares por pacote']"> <br><br>
         </td>
       </tr>
       <br>
@@ -115,25 +115,10 @@
 </template>
 
 <script>
-import useValidate from '@vuelidate/core'
-import {
-  required,
-  minLength,
-  numeric,
-  helpers,
-  requiredIf,
-  } from '@vuelidate/validators';
-import {reactive, computed} from 'vue'
-
 export default{
   name: "ProductForm",
-  props: {
-    newProduct: Boolean,
-  },
-
-  setup(props) {
-    const state = reactive({
-      isNewProduct: null,
+  data () {
+    return {
       // produto é comum para todos
       product: {
         name: null,
@@ -144,62 +129,23 @@ export default{
         description: null,
         imgs: null,
       },
-
       //Apenas para oculos
       descriptionGlasses: {},
       
       //Apenas para lentes
       descriptionLens: {},
     
-    })
-    const rules = computed(() => {
-    console.log('props' + this.newProduct)
-
-    const msgEmpty = helpers.withMessage('Campo obrigatorio', required)
-    const msgEmptyIf = helpers.withMessage('Campo obrigatorio', required)
-    const msgNumeric = helpers.withMessage('entrada invalida! apenas números', numeric)
-    const msgMin = (min) => helpers.withMessage(min +' digitos necessarios!', minLength(min))
-      return{
-        product: {
-          name: {
-            required: requiredIf(function(newProduct){
-        	    return newProduct
-            })
-          },
-          price: {required: msgEmpty},
-          warranty: {
-            required: msgEmpty,
-            numeric: msgNumeric,
-            minLength: msgMin(11),
-            },
-          amount: {
-            required: msgEmpty,
-            numeric: msgNumeric,
-
-            minLength: msgMin(11),
-            },
-          category: {
-            required: msgEmpty,
-            numeric: msgNumeric,
-            minLength: msgMin(8),
-            },
-          description: {required: msgEmpty},
-          imgs: {required: msgEmpty},
-        }
-      }
-    })
-    const v$ = useValidate(rules, state)
-    return{
-      state,
-      v$,
     }
+      
   },
   methods: {
     uploadFile() {
-      state.product.images = this.$refs.file.files;
+      this.product.images = this.$refs.file.files;
     },
     submitProduct() {
-      if(this.product.category=="lens"){
+      if(!this.product.category){
+        this.product.description = null
+      } else if(this.product.category=="lens"){
         this.product.description = this.descriptionLens;
       } else {
         this.product.description = this.descriptionGlasses;
@@ -216,16 +162,11 @@ export default{
         return true;
       }
     }
-  },
-  mounted() {
-    // state.isNewProduct = newProduct
-    console.log(this.state.isNewProduct)
   }
 }
 </script>
 
 <style scoped>
-
 input[type=text]{
   height: 24px;
   border-radius: 5px;
@@ -235,7 +176,6 @@ input[type=text]{
   padding: 5px;
   width: 70%;
 }
-
 .blueCard {
   background-color: #99D9EA;
   border-radius: 20px;
@@ -262,7 +202,6 @@ button{
   cursor: pointer;
   float: right;
 }
-
 button:hover{
   box-shadow: 0px 5px 5px gray;
   background-color: #5bf6d7;

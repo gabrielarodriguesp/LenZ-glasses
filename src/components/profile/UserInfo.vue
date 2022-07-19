@@ -1,16 +1,19 @@
 <template>
-  <div class="user-info" v-if="showSection=='info'">
+  <div class="user-info" v-if="showSection=='info' && user.info">
     <table class="blueCard" v-if="sectionSwitch==3">
       <tr> <td colspan="3" class="innerCell"><span class="bold">Nome: </span> {{ user.info.name }} </td></tr>
       <tr>
         <td class="innerCell"><span class="bold"> Data de Nascimento: </span> {{ localizeDate(user.info.birthday) }}</td>
         <td class="innerCell"><span class="bold"> CPF: </span> {{ showCPF(user.info.CPF) }} </td>
         <td class="innerCell"><span class="bold"> Telefone: </span> {{ showTelephone(user.info.CPF) }} </td>
-      </tr> 
-      <tr>
+     
+     </tr> 
+ 
+ <tr>
         <td class="innerCell" colspan="2"> <span class="bold">EMAIL: </span> {{ user.email }} </td>
         <td class="innerCell"><span class="bold"> CEP: </span> {{ showCEP(user.info.CEP) }}</td>
-      </tr>
+
+</tr>
       <tr>
         <td class="innerCell" colspan="3"><span class="bold"> Endereço: </span> {{ user.info.address }}</td>
       </tr>
@@ -49,6 +52,7 @@
 <script>
 import ChangeUserPass from './ChangeUserPass.vue'
 import ChangeUserInfo from './ChangeUserInfo.vue'
+import axios from 'axios';
 
 export default {
   name: "UserInfo",
@@ -79,25 +83,6 @@ export default {
       sectionSwitch:3,
       sectionTitle: "Informações",
 
-      userName: "Fulano Beltrano da Silva",
-      userDateBirth: "2013-05-07",
-      userCPF: "12345678901",
-      userTelephone: "1234567890",
-      userCEP: "01234567",
-      userAddress: "Rua exemplar de exemplo do exemplo exemplar, número 123, complemento 12, bloco 2",
-      userEmail: "fulano.beltrano.da.silva@email.com",
-      userPassword: "password",
-
-      
-      tempClientName: "",
-      tempClientDateBirth: "",
-      tempClientCPF: "",
-      tempClientTelephone: "",
-      tempClientCEP: "",
-      tempClientAddress: "",
-      tempClientEmail: "",
-      tempPassword0: "",
-      tempPassword1: "",
     }
   },
 
@@ -120,42 +105,52 @@ export default {
     
     showCPF(){
       return(str)=>{
-        if (str.includes('.') && str.includes('-')) {
-          return str
+        if(str){
+          if (str.includes('.') && str.includes('-')) {
+            return str
+          }
+          let substr = str.match(/[0-9]{1,3}/g);
+            return substr[0]+"."+substr[1]+"."+substr[2]+"-"+substr[3]
+      
         }
-        let substr = str.match(/[0-9]{1,3}/g);
-          return substr[0]+"."+substr[1]+"."+substr[2]+"-"+substr[3]
       }
     },
     showTelephone(){
       return(str)=>{
-
-        if (str.includes('-')) {
-          return str
-        }
-        if(str.length == 10) {
-          let substr = str.match(/[0-9]{1,2}/g);
-          return '('+substr[0]+')'+substr[1]+substr[2]+"-"+substr[3]+substr[4]
-        } else {
-          let substrBigger = str.match(/.{1,7}/g);
-          let substrSmaller = substrBigger[0].match(/[0-9]{1,2}/g);
-          return '('+substrSmaller[0]+')'+substrSmaller[1]+substrSmaller[2]+substrSmaller[3]+"-"+substrBigger[1]
+        if(str){
+          if (str.includes('-')) {
+            return str
+          }
+          if(str.length == 10) {
+            let substr = str.match(/[0-9]{1,2}/g);
+            return '('+substr[0]+')'+substr[1]+substr[2]+"-"+substr[3]+substr[4]
+          } else {
+            let substrBigger = str.match(/.{1,7}/g);
+            let substrSmaller = substrBigger[0].match(/[0-9]{1,2}/g);
+            return '('+substrSmaller[0]+')'+substrSmaller[1]+substrSmaller[2]+substrSmaller[3]+"-"+substrBigger[1]
+          }
         }
       }
     },
 
     showCEP(){
       return(str)=>{
-        if (str.includes('-')) {
-          return str
+        if(str){
+          if (str.includes('-')) {
+            return str
+          }
+          let substr = str.match(/[0-9]{1,5}/g);
+          return substr[0]+"-"+substr[1]
+      
         }
-        let substr = str.match(/[0-9]{1,5}/g);
-        return substr[0]+"-"+substr[1]
       }
     }
   },
-  created() {
-    this.user = JSON.parse(localStorage.getItem("loginUser"))
+  async mounted() {
+    let userData = JSON.parse(localStorage.getItem("loginUser"));
+    let res = await axios.get('http://localhost:5000/user/' + userData._id);
+    this.user = res.data
+    console.log(this.user)
   },
 
   methods: {

@@ -136,7 +136,6 @@ export default {
 
       this.v$.$validate();
       if(!this.v$.$error) {
-        console.log(this.userTemp)
         axios.put('http://localhost:5000/user/info/' + this.user._id, this.state.userTemp)
         alert('Alteração feita com sucesso!')
     
