@@ -1,5 +1,5 @@
 <template>
-    <div class="form-container">
+    <div class="form-container" v-if="!sucess">
       <form>
         <div class="payment-method pay-form">
           <h2>FORMA DE PAGAMENTO</h2><br>
@@ -25,11 +25,14 @@
           <label>Data de expiração</label><input type="text" size="5" placeholder="">
         </div>
         </form>
-      </div>
-    <button class="button-register" @click="checkout()">
-      FINALIZAR COMPRA
-    </button>
+      <button class="button-register" @click="checkout()">
+        FINALIZAR COMPRA
+      </button>
 
+      </div>
+      <h3 v-else>
+        Compra realizada com sucesso!
+      </h3>
 </template>
 
 <script>
@@ -43,6 +46,8 @@ export default {
       userID: null,
       oldOrders: [],
       cartItens: null,
+
+      sucess: false
 
     }
   },
@@ -88,8 +93,6 @@ export default {
           quantity: cart[i].qntdCart,
         })
       }
-
-      // return JSON.stringify(products);
       return (products);
 
       
@@ -115,10 +118,10 @@ export default {
       axios.put('http://localhost:5000/user/order/' + this.userID, order)
 
       localStorage.removeItem("cartItens")
-      alert('Compra realizada com sucesso!')
-      this.$router.push({
-        name: 'home'
-      });
+      this.sucess = true;
+
+alert('Compra realizada com sucesso!')
+
     }
   }
 }
@@ -174,5 +177,13 @@ a:hover{
   box-shadow: 0px 5px 5px gray;
   background-color: #48C9B0;
   cursor: pointer;
+}
+
+
+h3{
+  text-align: center;
+  font-family: 'Lilita One';
+  text-decoration: none;
+  color: #4D5656;
 }
 </style>

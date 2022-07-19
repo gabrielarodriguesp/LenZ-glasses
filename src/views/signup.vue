@@ -140,7 +140,7 @@ export default {
     submit() {
       this.v$.$validate();
       if(!this.v$.$error) {
-        axios.post('http://localhost:5000/user', (this.user))
+        axios.post('http://localhost:5000/user', (this.state.user))
         alert("Conta criada com sucesso!")
         this.$router.push('/login')
       } else {

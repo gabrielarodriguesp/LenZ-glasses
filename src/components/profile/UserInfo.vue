@@ -150,7 +150,6 @@ export default {
     let userData = JSON.parse(localStorage.getItem("loginUser"));
     let res = await axios.get('http://localhost:5000/user/' + userData._id);
     this.user = res.data
-    console.log(this.user)
   },
 
   methods: {

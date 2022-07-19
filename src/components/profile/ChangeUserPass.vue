@@ -36,7 +36,7 @@ export default {
         this.clientPassword = this.tempPassword0
         let userData = JSON.parse(localStorage.getItem("loginUser"))
         axios.put('http://localhost:5000/user/pass/' + userData._id, this.clientPassword)
-        
+        //http://localhost:5000/user/info/
         alert("Senha alterada com sucesso!")
         this.$emit('backToInfo')
 

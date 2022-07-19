@@ -61,7 +61,16 @@ export default{
       this.currentUser = JSON.parse(localStorage.getItem("loginUser"))
     },
     changeAdmin(user) {
-      axios.put('http://localhost:5000/user/admin/' + user._id, user)
+      let changeState;
+      if(!user.admin)
+        changeState = 'admin'
+      else
+        changeState = 'cliente'
+
+      let text = "Transformar " + user.info.name + ' em ' + changeState + '?';
+      if (confirm(text) == true) {
+        axios.put('http://localhost:5000/user/admin/' + user._id, user)
+      }
     }
   }
 }

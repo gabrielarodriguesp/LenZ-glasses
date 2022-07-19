@@ -51,11 +51,9 @@
         </button>
       </router-link>
 
-      <router-link to="/payment">
         <button class="btn ckeckout-button" @click="checkLogin()">
           <p>FINALIZAR COMPRA</p>
         </button>
-      </router-link>
     
   </section>
 
@@ -124,13 +122,16 @@ export default {
     },
     checkLogin(){
       this.infoUser = JSON.parse(localStorage.getItem("loginUser"))
-      if(this.infoUser){
-        this.$router.push('payment');
-      }
-      else{
+      console.log(this.infoUser)
+      if(!this.infoUser){
         alert('É necessario fazer login')
         this.$router.push('login');
-
+      }
+      else if (this.infoUser.admin){
+        alert('Admin não pode fazer compras!')
+        return; 
+      } else {
+        this.$router.push('payment');
       }
     }
   }
